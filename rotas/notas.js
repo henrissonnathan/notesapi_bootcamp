@@ -1,13 +1,33 @@
 const { Router } = require("express");
-const express = require("express");
+const { Nota }= require("../bd");
 const router = express.Router();
 
-router.get("/:id?",function(req,res){
-    if(req.params.id){
-    res.send("Nota ID "+ req.params.id)
+router.get("/:id?", async(req,res)=> {
+    const { id } = req,params;
+    let resutado
+    if(id){
+    resutado = await Nota.findOne({
+        where: {
+            id,
+        },
+        include:[
+            {
+                model: Usuario,
+                as: "usuario",
+            }
+        ]
+    })
     }else{
-        res.send("todas as notas")
+        resutado = await Nota.finAll({
+            include:[
+                {
+                    model:usuario,
+                    as: "usuario",
+                },
+            ],
+        });
     }
+    res.send(resutado);
 });
 
 router.post("/",function(req,res){

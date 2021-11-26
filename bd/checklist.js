@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const checklist = sequelize.define('UChecklist',{
+    const checklist = sequelize.define('Checklist',{
         id:{
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         concluida:{
-            type:DataTypes.BOOELAND,
+            type:DataTypes.BOOLEAN,
             allowNull: false,
         },
         

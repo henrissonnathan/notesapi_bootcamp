@@ -3,11 +3,8 @@ const app = express();
 const porta = 3000;
 
 app.use(express.json());
-
-const bd = require("./bd");
-
 const usuario = require("./rotas/usuario");
-const nota = require("./rotas/nota");
+const nota = require("./rotas/notas");
 
 app.use("/usuario", usuario);
 app.use("/nota", nota);
