@@ -1,33 +1,35 @@
 module.exports = (sequelize, DataTypes) => {
-    const Nota= sequelize.define('Nota',{
-        id:{
+  const Nota = sequelize.define(
+    "Nota",
+    {
+      id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
+      },
+      usuarioId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "usuario",
+          key: "id",
         },
-        usuarioId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references:{
-                model: 'usuario',
-                Key: "Id",
-            },
-        },
-        titulo:{
-            type:DataTypes.STRING,
-            allowNull: true,
-        },
-        descricao:{
-            type:DataTypes.STRING,
-            allowNull: true,
-        },
-        
+      },
+      titulo: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      descricao: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
     },
     {
-        tableName: "nota",
-        timestamps: false,
+      tableName: "nota",
+      timestamps: false,
     }
-    );
-    return Nota
-}
+  );
+
+  return Nota;
+};

@@ -1,8 +1,10 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const inicializarUsuario = require("./Usuario");
 const inicializarNota = require("./Nota");
-const inicializarCheklist = require("./Checklist");
+const inicializarChecklist = require("./Checklist");
 let bd = {};
+
+const ambiente = process.env.NODE_ENV;
 
 const options = {
   username: "admin",
@@ -10,6 +12,7 @@ const options = {
   database: "notes",
   dialect: "mysql",
   host: "notes.cgssmrnlwpdu.us-east-2.rds.amazonaws.com",
+  logging: ambiente == "development" ? true : false,
 };
 
 const sequelize = new Sequelize(options);
@@ -23,15 +26,14 @@ sequelize
     console.log(erro);
   });
 
+const Usuario = inicializarUsuario(sequelize, DataTypes);
+const Nota = inicializarNota(sequelize, DataTypes);
+const Checklist = inicializarChecklist(sequelize, DataTypes);
 
-const Usuario = inicializarUsuario(sequelize,DataTypes);
-const Nota = inicializarNota(sequelize,DataTypes);
-const Checklist = inicializarCheklist(sequelize,DataTypes);
+Nota.hasMany(Checklist, { as: "checklists", foreignKey: "notaId" });
+Nota.belongsTo(Usuario, { as: "usuario", foreignKey: "usuarioId" });
 
-Nota.hasMany(Checklist, {as: 'checklists', foreignKey: "notaId"});
-Nota.belongsTo(Usuario, {as: "usuario", foreigeKey: "usuarioId"});
-
-bd = {Usuario,Nota,Checklist};
+bd = { Usuario, Nota, Checklist };
 
 bd.Sequelize = Sequelize;
 bd.sequelize = sequelize;
